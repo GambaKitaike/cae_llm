@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# 仮想環境
+.venv/
+venv/
+env/
+
+# 環境変数（秘密情報）
+.env
+
+# 学習出力（大容量のため除外）
+outputs/
+
+# データ（元データ・生成データは再現可能なため除外）
+data/processed/
+data/synthetic/
+data/raw/
+
+# ライブラリパッチスクリプト（環境依存・一時的な修正）
+scripts/_patch_trl.py
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# W&B
+wandb/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

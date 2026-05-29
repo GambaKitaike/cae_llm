@@ -1,0 +1,47 @@
+---
+description: 
+alwaysApply: true
+---
+
+# CLAUDE.md
+
+Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+
+**Tradeoff:** これらのガイドラインは速度より慎重さを優先。trivial tasksでは判断して柔軟に。
+
+## 1. Think Before Coding
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+
+- 実装前に仮定を明示的に述べよ。不確かなら聞け。
+- 複数の解釈がある場合は提示し、勝手に決めない。
+- よりシンプルな方法があれば提案せよ。
+- 不明点があれば止まって、具体的に何が不明かを名指しで聞け。
+
+## 2. Simplicity First
+**Minimum code that solves the problem. Nothing speculative.**
+
+- 要件を超えた機能は追加しない。
+- 1回しか使わないコードに抽象化を入れない。
+- 未要求の「将来性」「柔軟性」は不要。
+- 不可能なシナリオのエラーハンドリングは不要。
+- 200行書いたら50行で済むか自問し、書き直せ。
+
+## 3. Surgical Changes
+**Touch only what you must. Clean up only your own mess.**
+
+- 既存コードの隣接部分を勝手に「改善」しない。
+- 動いているものをリファクタリングしない。
+- 既存スタイルに合わせよ（自分が好みでなくても）。
+- 自分の変更で生まれたunusedコードだけ削除。
+- 事前にあったdead codeは触らない（言及するだけ）。
+
+## 4. Goal-Driven Execution
+**Define success criteria. Loop until verified.**
+
+- タスクを「検証可能なゴール」に変換せよ。
+  - 「バリデーション追加」→「不正入力のテストを書いて通す」
+  - 「バグ修正」→「再現テストを書いて通す」
+- 複数ステップ時は簡潔な計画を先に述べよ。
+- テスト/検証を必ず行い、成功基準を満たすまでループ。
+
+これらが機能している証拠：diffの不要変更が減り、過剰実装が減り、質問が実装前に出るようになる。

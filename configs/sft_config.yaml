@@ -1,0 +1,61 @@
+# ============================================================
+# Phase 2: Supervised Fine-Tuning (SFT) Configuration
+# Base model: CPT adapter OR llm-jp/llm-jp-3-1.8b (direct SFT)
+# Target VRAM: 8 GB (QLoRA 4-bit)
+# ============================================================
+
+model:
+  name: "llm-jp/llm-jp-3-1.8b"
+  # CPT アダプターを引き継いで SFT
+  adapter_path: "outputs/cpt/final_adapter"
+  trust_remote_code: true
+  load_in_4bit: true
+  bnb_4bit_quant_type: "nf4"
+  bnb_4bit_compute_dtype: "bfloat16"
+  bnb_4bit_use_double_quant: true
+
+lora:
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+
+training:
+  output_dir: "outputs/sft"
+  num_train_epochs: 3
+  per_device_train_batch_size: 1            # batch=2はVRAMあふれの原因、1に固定
+  gradient_accumulation_steps: 8            # 実効バッチ=8
+  gradient_checkpointing: true
+  learning_rate: 1.0e-4
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.05
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  logging_steps: 20
+  save_steps: 200
+  save_total_limit: 3
+  bf16: true
+  fp16: false
+  tf32: true
+  dataloader_num_workers: 4
+  dataloader_pin_memory: true
+  remove_unused_columns: false
+  report_to: "none"
+
+data:
+  train_file: "data/synthetic/sft_train.jsonl"
+  eval_file: "data/synthetic/sft_eval.jsonl"
+  max_seq_length: 1024
+  eval_split_ratio: 0.05
+
+prompt:
+  system_message: "あなたはCAE（有限要素解析・流体解析・構造解析）の専門アシスタントです。エンジニアの質問に対して、技術的に正確で分かりやすい回答を日本語で提供してください。"
