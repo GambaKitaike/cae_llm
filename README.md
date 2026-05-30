@@ -232,7 +232,7 @@ cae_llm/
 ## 関連プロジェクト
 
 本プロジェクトは、同じ Altair OptiStruct ドキュメントを対象とした RAG システムの後継として開発した。  
-RAG プロジェクト: <!-- TODO: RAG プロジェクトの GitHub URL をここに記載 -->
+RAG プロジェクト: [GambaKitaike/rag_project](https://github.com/GambaKitaike/rag_project)
 
 RAG ではカバーしきれなかった「ドキュメントに明示されていない暗黙知」の回答を、  
 ドメイン適応ファインチューニングで補完するという設計になっている。  
